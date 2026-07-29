@@ -1,0 +1,201 @@
+.win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 16px);
+  background: var(--metal-lit);
+  box-shadow: var(--bev-out), 0 14px 34px rgba(0,0,0,.72);
+  border: 1px solid #05060a;
+  transform: translate(var(--par-x, 0), var(--par-y, 0));
+  max-height: calc(100dvh - var(--tb-h) - 12px);
+}
+
+.win.is-entering { animation: win-in .28s var(--ease-hard); }
+@keyframes win-in {
+  from { opacity: 0; transform: scale(.96) translateY(6px); filter: brightness(2.4); }
+}
+
+.win.is-dragging { box-shadow: var(--bev-out), 0 22px 46px rgba(0,0,0,.85); }
+
+/* windows touched — the glitch secret */
+.win.is-bleeding { animation: win-bleed .46s steps(3, end); }
+@keyframes win-bleed {
+  0%   { filter: none; }
+  20%  { filter: invert(1) hue-rotate(90deg); transform: translate(-3px, 2px); }
+  45%  { filter: contrast(2.6) saturate(0); transform: translate(4px, -2px); }
+  70%  { filter: invert(1); transform: translate(-2px, -1px); }
+  100% { filter: none; }
+}
+
+/* ---------------------------------------------------------- title bar */
+.win-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 3px 0 5px;
+  flex: none;
+  background: var(--chrome-bar-dim);
+  border-bottom: 1px solid #05060a;
+  cursor: url('../assets/tex/cur-grab.png') 8 8, grab;
+  user-select: none;
+}
+.win.is-front > .win-bar {
+  background: var(--chrome-bar);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+}
+.win.is-dragging > .win-bar { cursor: url('../assets/tex/cur-grab.png') 8 8, grabbing; }
+
+.win-ico { flex: none; }
+
+.win-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: 400 9px/1 var(--f-pixel);
+  letter-spacing: .07em;
+  color: var(--silver-lt);
+  text-shadow: 1px 1px 0 rgba(0,0,0,.7);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.win.is-front .win-title { color: #06070a; text-shadow: 0 1px 0 rgba(255,255,255,.35); }
+
+.win-btns { display: flex; gap: 2px; flex: none; }
+.win-btn {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 16px;
+  background: var(--chrome-bar-dim);
+  box-shadow: var(--bev-out);
+  border: 1px solid #05060a;
+}
+.win-btn-g {
+  font: 700 10px/1 var(--f-pixel);
+  color: var(--cold);
+  transform: translateY(-1px);
+}
+.win-btn:hover { background: var(--chrome-bar); }
+.win-btn:hover .win-btn-g { color: #06070a; }
+.win-btn:active { box-shadow: var(--bev-in); }
+.win-btn[data-act="close"]:hover { background: var(--blood); }
+.win-btn[data-act="close"]:hover .win-btn-g { color: var(--cold); }
+
+/* ---------------------------------------------------------- body */
+.win-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 6px;
+  background: var(--charcoal);
+  box-shadow: var(--bev-in);
+  overflow: auto;
+}
+
+.win.is-shaded { height: auto !important; }
+.win.is-shaded > .win-body { display: none; }
+
+/* ---------------------------------------------------------- ambient windows */
+.amb-win {
+  box-shadow: var(--bev-out), 0 10px 26px rgba(0,0,0,.66);
+  opacity: .96;
+}
+.amb-win .win-body { padding: 4px; }
+
+.amb { position: relative; display: grid; gap: 4px; }
+.amb-img {
+  width: 100%;
+  height: auto;
+  filter: contrast(1.08) saturate(.9) brightness(.94);
+}
+.amb-img.is-masked { filter: none; }
+
+.amb-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 3px 5px;
+  background: #05070a;
+  box-shadow: var(--bev-in);
+}
+.amb-txt {
+  font: 400 8px/1.2 var(--f-pixel);
+  letter-spacing: .06em;
+  color: var(--rad);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.amb-led {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--rad);
+  box-shadow: 0 0 7px var(--rad);
+  animation: led-blink 2.4s steps(2, end) infinite;
+}
+@keyframes led-blink { 50% { opacity: .2; } }
+
+.amb-open {
+  flex: none;
+  padding: 3px 7px;
+  font: 700 8px/1 var(--f-pixel);
+  color: #06070a;
+  background: var(--chrome-bar);
+  box-shadow: var(--bev-out);
+  border: 1px solid #05060a;
+}
+.amb-open:hover { background: var(--chrome); }
+
+/* ---------------------------------------------------------- camcorder OSD */
+.amb-cam .amb-img { width: 100%; }
+
+.osd {
+  position: absolute;
+  inset: 0;
+  padding: 7px 8px;
+  pointer-events: none;
+  font: 400 15px/1 var(--f-term);
+  color: var(--cold);
+  text-shadow: 0 0 6px rgba(0,0,0,.95), 1px 1px 0 rgba(0,0,0,.9);
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto 1fr auto;
+  align-content: space-between;
+  justify-content: space-between;
+}
+.osd-rec { display: flex; align-items: center; gap: 5px; color: #fff; letter-spacing: .1em; }
+.osd-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--blood-lt);
+  box-shadow: 0 0 9px var(--blood-lt);
+  animation: rec-blink 1.3s steps(2, end) infinite;
+}
+@keyframes rec-blink { 50% { opacity: .15; } }
+.osd-batt { display: flex; align-items: center; gap: 4px; justify-self: end; }
+.osd-cell {
+  width: 15px; height: 8px;
+  border: 1px solid var(--cold);
+  background: linear-gradient(90deg, var(--blood-lt) 0 31%, transparent 31%);
+}
+.osd-stamp { grid-row: 3; align-self: end; letter-spacing: .04em; }
+.osd-mode { grid-row: 3; justify-self: end; align-self: end; }
+
+.tracking {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(180deg,
+    transparent 0 6px, rgba(255,255,255,.09) 6px 7px);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, transparent 22%,
+    transparent 74%, #000 79%, transparent 84%);
+  animation: track-roll 5.5s linear infinite;
+}
+@keyframes track-roll {
+  from { mask-position: 0 -100%; }
+  to   { mask-position: 0 200%; }
+}
+body.reduce-chaos .tracking { animation-play-state: paused; }

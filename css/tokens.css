@@ -1,0 +1,81 @@
+:root {
+  /* palette — overridden at runtime by js/config/theme.js */
+  --void:      #08080b;
+  --pitch:     #0d0d12;
+  --charcoal:  #16161d;
+  --iron:      #23242e;
+  --slate:     #3a3d4a;
+  --silver:    #6f7482;
+  --silver-lt: #b9bfcb;
+  --cold:      #eef1f7;
+
+  --blood:     #b0121a;
+  --blood-lt:  #ff4a54;
+  --bruise:    #6b3fa0;
+  --bruise-lt: #a06fe0;
+  --electric:  #1b3fff;
+  --rad:       #6cff3f;
+
+  /* type — blackletter for the name, bitmap for controls, CRT for readouts */
+  --f-display: 'Pirata One', 'UnifrakturMaguntia', Georgia, serif;
+  --f-pixel:   'Silkscreen', 'Courier New', monospace;
+  --f-term:    'VT323', 'Courier New', monospace;
+
+  /* chrome materials */
+  --chrome: linear-gradient(178deg,
+    #ffffff 0%, #c9ced9 14%, #565b6b 33%, #f2f5fa 46%,
+    #8f95a4 58%, #333744 74%, #dbe0ea 88%, #767c8d 100%);
+  --chrome-bar: linear-gradient(180deg,
+    #d9dee8 0%, #9aa0ae 20%, #4a4e5c 50%, #7c8291 76%, #2b2e39 100%);
+  --chrome-bar-dim: linear-gradient(180deg,
+    #5c616e 0%, #3f434f 30%, #2a2d37 60%, #1d1f27 100%);
+  --metal: linear-gradient(180deg, #2a2c36 0%, #191b23 48%, #0f1118 100%);
+  --metal-lit: linear-gradient(180deg, #363944 0%, #22242e 50%, #14161d 100%);
+
+  /* raised / sunken edges, dark-chrome take on the 98 bevel */
+  --bev-out:
+    inset  1px  1px 0 #cfd5e0, inset -1px -1px 0 #14161c,
+    inset  2px  2px 0 #7e8492, inset -2px -2px 0 #05060a;
+  --bev-in:
+    inset -1px -1px 0 #aab0bd, inset  1px  1px 0 #101219,
+    inset -2px -2px 0 #636876, inset  2px  2px 0 #05060a;
+  --bev-thin:
+    inset 1px 1px 0 #8f95a4, inset -1px -1px 0 #0b0c10;
+
+  /* semantic stacking order — nothing arbitrary */
+  --z-bg: 0;
+  --z-collage: 10;
+  --z-decor: 24;
+  --z-win: 60;
+  --z-taskbar: 800;
+  --z-menu: 820;
+  --z-dock: 840;
+  --z-sheet: 860;
+  --z-toast: 900;
+  --z-boot: 1000;
+
+  /* 1 normally, 0 when chaos is reduced — multiplies decorative motion */
+  --chaos: 1;
+  --tb-h: 34px;
+  --dock-h: 0px;
+
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-hard: cubic-bezier(.2,.9,.15,1);
+}
+
+body.reduce-chaos { --chaos: 0; }
+
+/* Freeze every decorative animation when the tab is in the background or
+   the visitor has asked for less motion. Interface transitions survive. */
+body.reduce-chaos .is-decor-anim,
+body.is-hidden-tab .is-decor-anim { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --chaos: 0; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .06s !important;
+    scroll-behavior: auto !important;
+  }
+}

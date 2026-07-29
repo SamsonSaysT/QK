@@ -1,0 +1,129 @@
+.game-win .win-body {
+  padding: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: #06070b;
+}
+
+/* ------------------------------------------------------ HUD */
+.g-hud {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--metal-lit);
+  box-shadow: var(--bev-thin);
+}
+.g-stat {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 4px 6px;
+  background: #04060a;
+  box-shadow: var(--bev-in);
+  text-align: center;
+}
+.g-stat i {
+  font: 400 7px/1 var(--f-pixel);
+  letter-spacing: .14em;
+  color: var(--slate);
+  font-style: normal;
+}
+.g-stat b {
+  font: 400 20px/1 var(--f-term);
+  color: var(--cold);
+  letter-spacing: .04em;
+}
+.g-combo b { color: var(--bruise-lt); }
+.g-time b { color: var(--silver-lt); }
+.g-hud.is-hot .g-combo b {
+  color: var(--rad);
+  text-shadow: 0 0 10px rgba(108,255,63,.6);
+}
+.g-hud.is-late .g-time b {
+  color: var(--blood-lt);
+  animation: g-tick 1s steps(2, end) infinite;
+}
+@keyframes g-tick { 50% { opacity: .35; } }
+
+/* ------------------------------------------------------ arena */
+.g-stage {
+  position: relative;
+  min-height: 260px;
+  background: #0b0b10;
+  box-shadow: var(--bev-in);
+  overflow: hidden;
+  touch-action: none;
+  cursor: none;
+}
+.g-canvas { display: block; width: 100%; height: 100%; }
+
+.g-over {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(6,7,11,.86);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s var(--ease-out);
+}
+.g-over.is-on { opacity: 1; }
+
+.g-big {
+  font: 400 clamp(1.6rem, 6vw, 2.4rem)/1 var(--f-display);
+  letter-spacing: .02em;
+  color: transparent;
+  background: var(--chrome);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 2px 0 #04050a);
+}
+.g-score {
+  font: 400 clamp(2.4rem, 11vw, 3.6rem)/1 var(--f-term);
+  color: var(--rad);
+  text-shadow: 0 0 20px rgba(108,255,63,.45);
+}
+.g-sub {
+  font: 400 9px/1.5 var(--f-pixel);
+  letter-spacing: .1em;
+  color: var(--silver);
+}
+.g-again { color: var(--bruise-lt); animation: g-pulse 1.6s ease-in-out infinite; }
+@keyframes g-pulse { 50% { opacity: .4; } }
+
+/* ------------------------------------------------------ controls */
+.g-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  background: var(--metal-lit);
+  box-shadow: var(--bev-thin);
+}
+.g-btn {
+  padding: 6px 11px;
+  font: 700 9px/1 var(--f-pixel);
+  letter-spacing: .08em;
+  color: var(--silver-lt);
+  background: var(--chrome-bar-dim);
+  box-shadow: var(--bev-out);
+  border: 1px solid #05060a;
+}
+.g-btn:hover { background: var(--chrome-bar); color: #06070a; }
+.g-btn:active { box-shadow: var(--bev-in); }
+.g-btn-hero { color: var(--cold); background: linear-gradient(180deg, #7a1620, #3d0a10); }
+.g-btn-hero:hover { background: linear-gradient(180deg, #b0121a, #6a0d14); color: #fff; }
+
+.g-help {
+  margin-left: auto;
+  font: 400 13px/1 var(--f-term);
+  color: var(--slate);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,216 @@
+/* ═══════════════════════════════════════════════════════════════════
+   NARROW LAYOUT — the collage goes vertical, apps become sheets,
+   the player docks. The chaos survives; it just stacks.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+
+  :root { --dock-h: 118px; --tb-h: 40px; }
+
+  body { overflow: auto; overscroll-behavior-y: none; }
+  body.sheet-open { overflow: hidden; }
+
+  #desktop {
+    position: relative;
+    inset: auto;
+    min-height: 100svh;
+    overflow: visible;
+    padding-bottom: calc(var(--tb-h) + var(--dock-h) + 24px);
+  }
+
+  #bg { position: fixed; }
+  .bg-sigil { width: min(90vw, 460px); }
+
+  /* ---------------------------------------------- vertical collage */
+  #collage {
+    position: relative;
+    inset: auto;
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+    padding: 20px 14px 0;
+  }
+  #collage > * {
+    position: static;
+    transform: none;
+    translate: none;
+  }
+  #collage::before { display: none; }
+
+  .mark { order: 1; width: 100%; }
+  .wm-line::before { -webkit-text-stroke-width: 5px; }
+
+  #coffin {
+    order: 2;
+    width: min(74%, 290px);
+    animation: none;
+    rotate: -1.5deg;
+  }
+
+  #halo-portrait {
+    order: 3;
+    width: 92px;
+    animation: none;
+  }
+
+  #icons {
+    position: static;
+    order: 4;
+    width: 100%;
+    max-width: 420px;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+  .dicon {
+    width: 100%;
+    padding: 13px 10px;
+    background: rgba(18,20,27,.82);
+    border: 1px solid #2a2d37;
+    box-shadow: var(--bev-out);
+    min-height: 56px;
+  }
+  .dicon span { font-size: 9px; }
+
+  #arch-portal { order: 5; width: min(62%, 250px); }
+
+  .strip-thorn { order: 6; width: min(80%, 260px); }
+
+  #win-online { order: 7; }
+  #win-cam { order: 8; }
+  #win-plates { order: 9; }
+
+  .amb-win {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 420px;
+    opacity: 1;
+  }
+  .amb-win .win-bar { height: 26px; }
+
+  .strip-fire { order: 10; width: min(70%, 220px); }
+
+  #cutout { order: 11; width: min(66%, 260px); }
+
+  .strip-work { order: 12; width: min(46%, 150px); }
+
+  /* ---------------------------------------------- decoration */
+  #decor { position: absolute; inset: 0; }
+  .sticker { opacity: .85; }
+
+  /* ---------------------------------------------- app sheets */
+  .win.is-sheet {
+    position: fixed !important;
+    inset: 0 0 calc(var(--tb-h) + var(--dock-h)) 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: auto !important;
+    max-width: none;
+    z-index: var(--z-sheet);
+    border-left: 0;
+    border-right: 0;
+    animation: sheet-in .26s var(--ease-hard);
+  }
+  @keyframes sheet-in { from { transform: translateY(14px); opacity: 0; } }
+
+  .win.is-sheet > .win-bar { height: 34px; padding-left: 8px; }
+  .win.is-sheet .win-title { font-size: 10px; }
+  .win.is-sheet .win-btn { width: 30px; height: 26px; }
+  .win.is-sheet > .win-body { flex: 1 1 auto; overflow: auto; }
+  .win.is-sheet.is-shaded > .win-body { display: block; }
+
+  .photo-win.is-sheet .win-body { grid-template-rows: 1fr auto auto auto; }
+  .pv-stage { height: auto; min-height: 42svh; }
+  .pv-media { max-height: 48svh; }
+  .pv-thumb { width: 52px; height: 52px; }
+  .pv-btn { padding: 10px 14px; }
+
+  .game-win.is-sheet .win-body { grid-template-rows: auto 1fr auto; }
+  .g-stage { min-height: 40svh; }
+  .g-btn { padding: 10px 13px; }
+  .g-help { display: none; }
+
+  .gb-list { max-height: none; }
+  .term-out { max-height: none; }
+
+  /* ---------------------------------------------- docked player */
+  .amp-win {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0;
+    top: auto !important;
+    bottom: var(--tb-h) !important;
+    width: auto !important;
+    max-width: none;
+    z-index: var(--z-dock);
+    border-left: 0;
+    border-right: 0;
+    box-shadow: var(--bev-out), 0 -10px 26px rgba(0,0,0,.7);
+  }
+  .amp-win > .win-bar { height: 24px; }
+  .amp { grid-template-columns: 1fr; }
+  .amp-wing { display: none; }
+  .amp-core { padding: 5px 8px 7px; gap: 4px; }
+  .amp-vis { height: 22px; }
+  .amp-lcd { gap: 2px; padding: 4px 5px; }
+  .amp-lcd-top { font-size: 16px; }
+  .amp-lcd-bot { display: none; }
+  .amp-btn { min-width: 34px; height: 26px; }
+  .amp-row { gap: 4px; }
+
+  /* ---------------------------------------------- taskbar */
+  #taskbar {
+    position: fixed;
+    height: var(--tb-h);
+    padding: 4px 5px;
+  }
+  #task-strip { display: none; }
+  .tb-hits { display: none; }
+  .tb-btn { padding: 0 8px; font-size: 8px; }
+  #start-btn { height: 30px; }
+  .tb-cell, .tb-btn, #skull-key { height: 30px; }
+  #skull-key { width: 30px; }
+  #start-menu { bottom: var(--tb-h); width: 240px; }
+  .start-item { padding: 12px 12px; font-size: 10px; }
+
+  #toasts { bottom: calc(var(--tb-h) + var(--dock-h) + 12px); }
+}
+
+/* ─────────────────────────────────────────────── very small phones */
+@media (max-width: 420px) {
+  .tb-secrets { display: none; }
+  .tb-btn span { font-size: 7px; }
+  #icons { grid-template-columns: 1fr; }
+  .dicon { grid-template-columns: 32px 1fr; }
+  .amp-btn { min-width: 30px; }
+  .pv-thumb { width: 46px; height: 46px; }
+}
+
+/* ─────────────────────────────────────────────── short landscape */
+@media (max-height: 520px) and (orientation: landscape) and (max-width: 900px) {
+  :root { --dock-h: 0px; }
+  .amp-win { position: fixed !important; bottom: var(--tb-h) !important; }
+  .amp-win:not(.is-shaded) .amp-vis { display: none; }
+  .g-stage { min-height: 50svh; }
+}
+
+/* ─────────────────────────────────────────────── very wide desktops */
+@media (min-width: 1600px) {
+  #coffin { width: clamp(240px, 22vw, 400px); }
+  #cutout { width: clamp(200px, 19vw, 350px); }
+  .wm-line { font-size: clamp(3rem, 7vw, 6rem); }
+}
+
+/* ─────────────────────────────────────────────── pointer-coarse tweaks */
+@media (hover: none) {
+  body { cursor: auto; }
+  button { cursor: pointer; }
+  .win-bar { cursor: default; }
+  .sticker.is-live { cursor: pointer; }
+}
+
+/* ─────────────────────────────────────────────── print (why not) */
+@media print {
+  #boot, #decor, #taskbar, #winlayer, .bg-scan, .bg-noise { display: none !important; }
+  body, #desktop { position: static; overflow: visible; background: #fff; }
+}

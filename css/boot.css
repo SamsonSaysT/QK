@@ -1,0 +1,133 @@
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-boot);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #000;
+  transition: opacity .55s var(--ease-out), transform .55s var(--ease-out);
+}
+#boot.is-out { opacity: 0; transform: scale(1.04); pointer-events: none; }
+
+.boot-inner {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  width: min(92vw, 430px);
+  text-align: center;
+}
+
+/* ------------------------------------------------ the sigil assembling */
+.boot-sigil-wrap { position: relative; }
+.boot-sigil {
+  width: min(44vw, 176px);
+  height: auto;
+  filter: drop-shadow(0 0 18px rgba(180,195,220,.22));
+}
+
+.bs-strokes path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: bs-draw .85s var(--ease-out) forwards;
+  animation-delay: calc(var(--i) * 62ms + 140ms);
+}
+@keyframes bs-draw { to { stroke-dashoffset: 0; } }
+
+.bs-fills {
+  opacity: 0;
+  animation: bs-fill 1.2s var(--ease-out) forwards 1.35s;
+}
+@keyframes bs-fill { to { opacity: 1; } }
+
+/* ------------------------------------------------ copy */
+.boot-tag {
+  font: 400 11px/1 var(--f-pixel);
+  letter-spacing: .22em;
+  color: var(--silver);
+  opacity: 0;
+  animation: boot-in .8s var(--ease-out) forwards 1.7s;
+}
+@keyframes boot-in { to { opacity: 1; } }
+
+#boot-log {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  min-height: 132px;
+  align-content: start;
+}
+
+.boot-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 8px;
+  font: 400 17px/1.15 var(--f-term);
+  color: var(--silver);
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .22s var(--ease-out), transform .22s var(--ease-out);
+}
+.boot-row.is-in { opacity: 1; transform: none; }
+.boot-k { letter-spacing: .06em; }
+.boot-dots { border-bottom: 1px dotted var(--slate); transform: translateY(-4px); }
+.boot-v { color: var(--rad); letter-spacing: .04em; }
+.boot-row:nth-child(6) .boot-v { color: var(--blood-lt); }
+
+/* ------------------------------------------------ doors */
+#boot-actions {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity .4s var(--ease-out), transform .4s var(--ease-out);
+}
+#boot-actions.is-ready { opacity: 1; transform: none; pointer-events: auto; }
+
+.boot-enter {
+  position: relative;
+  padding: 13px 34px;
+  font: 700 15px/1 var(--f-pixel);
+  letter-spacing: .12em;
+  color: #06070a;
+  background: var(--chrome-bar);
+  box-shadow: var(--bev-out), 0 0 26px rgba(200,215,240,.16);
+  border: 1px solid #05060a;
+  transition: transform .12s var(--ease-hard), box-shadow .2s var(--ease-out);
+}
+.boot-enter:hover { box-shadow: var(--bev-out), 0 0 34px rgba(210,225,250,.34); }
+.boot-enter:active { transform: translateY(1px); box-shadow: var(--bev-in); }
+
+.boot-quiet {
+  font: 400 16px/1 var(--f-term);
+  letter-spacing: .08em;
+  color: var(--silver);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 6px 10px;
+}
+.boot-quiet:hover { color: var(--cold); }
+
+/* ------------------------------------------------ CRT overlay */
+.boot-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(180deg,
+      rgba(255,255,255,.045) 0 1px,
+      transparent 1px 3px),
+    radial-gradient(ellipse at 50% 50%, transparent 42%, rgba(0,0,0,.85) 100%);
+  animation: boot-flicker 5.5s steps(2, end) infinite;
+}
+@keyframes boot-flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: .82; }
+  98% { opacity: 1; }
+  99% { opacity: .9; }
+}
+
+body.is-booting { overflow: hidden; }

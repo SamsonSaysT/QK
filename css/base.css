@@ -1,0 +1,137 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--void);
+  color: var(--silver-lt);
+  font-family: var(--f-pixel);
+  -webkit-text-size-adjust: 100%;
+}
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  overflow: hidden;                 /* the desktop does not scroll */
+  overscroll-behavior: none;
+  cursor: url('../assets/tex/cur-dagger.png') 2 2, default;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+img { border: 0; }
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+}
+
+button { cursor: url('../assets/tex/cur-cross.png') 13 13, pointer; }
+a { color: var(--rad); }
+
+h1, h2, h3, p, pre, ol, ul { margin: 0; }
+ol, ul { list-style: none; padding: 0; }
+
+/* ---------------------------------------------------------- focus */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--rad);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+.skip {
+  position: fixed;
+  top: -60px;
+  left: 8px;
+  z-index: var(--z-boot);
+  padding: 8px 14px;
+  background: var(--rad);
+  color: #04060a;
+  font: 700 11px/1 var(--f-pixel);
+  text-decoration: none;
+  transition: top .18s var(--ease-out);
+}
+.skip:focus { top: 8px; }
+
+/* ---------------------------------------------------------- scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--silver) var(--void); }
+*::-webkit-scrollbar { width: 12px; height: 12px; }
+*::-webkit-scrollbar-track { background: var(--void); box-shadow: var(--bev-in); }
+*::-webkit-scrollbar-thumb {
+  background: var(--chrome-bar);
+  box-shadow: var(--bev-out);
+  border: 1px solid #05060a;
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--chrome); }
+
+/* ---------------------------------------------------------- selection */
+::selection { background: var(--blood); color: var(--cold); }
+
+/* ---------------------------------------------------------- pixel art */
+[data-gif], .dicon img, .win-ico, .task-btn img, .start-item img,
+#start-btn img, #skull-key img, .gb-ico, .gb-pick img {
+  image-rendering: pixelated;
+}
+
+/* ---------------------------------------------------------- night mode 666 */
+#desktop { transition: filter .45s var(--ease-out); }
+body.night-666 #desktop { filter: invert(1) hue-rotate(175deg) saturate(1.25); }
+body.night-666 { background: #f4f3ee; }
+
+/* ---------------------------------------------------------- helpers */
+[hidden] { display: none !important; }
+
+.noscript {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--void);
+  color: var(--cold);
+  font: 400 18px/1.5 var(--f-term);
+  text-align: center;
+  z-index: var(--z-boot);
+}
+
+#toasts {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--tb-h) + var(--dock-h) + 16px);
+  transform: translateX(-50%);
+  z-index: var(--z-toast);
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  pointer-events: none;
+  width: min(92vw, 420px);
+}
+
+.toast {
+  display: grid;
+  gap: 2px;
+  justify-items: center;
+  padding: 8px 16px;
+  text-align: center;
+  background: var(--metal-lit);
+  box-shadow: var(--bev-out), 0 6px 0 rgba(0,0,0,.5);
+  border: 1px solid #05060a;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s var(--ease-out), transform .3s var(--ease-out);
+}
+.toast.is-in { opacity: 1; transform: none; }
+.toast b {
+  font: 700 11px/1.3 var(--f-pixel);
+  color: var(--cold);
+  letter-spacing: .04em;
+}
+.toast span {
+  font: 400 15px/1.2 var(--f-term);
+  color: var(--bruise-lt);
+}
